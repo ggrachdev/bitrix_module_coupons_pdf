@@ -13,7 +13,7 @@ package GGrach.CouponsPdf {
 
     namespace Validator {
         class CreatorCouponeValidator{
-          + {static} bool validate(int $orderId)
+          + {static} bool needGenerateCoupon(int $orderId)
           --
           Опредялет нужно ли генерировать купон для заказа
         }
