@@ -33,7 +33,7 @@ package GGrach.CouponsPdf {
           - string $pathFolderForGenerate
 
           + void constructor(string $сodeCoupon, string $pathFolderForGenerate)
-          + bool generate()
+          + string generate()
           --
           Генерирует PDF файл
         }

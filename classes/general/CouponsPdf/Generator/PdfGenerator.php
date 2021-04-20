@@ -6,36 +6,46 @@ use Dompdf\Dompdf;
 
 class PdfGenerator {
 
-    private string $codeCoupon;
     private string $pathFolderForGenerate;
+    private string $nameFilePdf;
 
-    public function __construct(string $codeCoupon, string $pathFolderForGenerate) {
-        $this->codeCoupon = $codeCoupon;
+    public function __construct(string $pathFolderForGenerate, string $nameFilePdf) {
         $this->pathFolderForGenerate = $pathFolderForGenerate;
-    }
-
-    public function getCodeCoupon(): string {
-        return $this->codeCoupon;
+        $this->nameFilePdf = $nameFilePdf;
     }
 
     public function getPathFolderForGenerate(): string {
         return $this->pathFolderForGenerate;
     }
 
-    public function setCodeCoupon(string $codeCoupon): void {
-        $this->codeCoupon = $codeCoupon;
+    public function getNameFilePdf(): string {
+        return $this->nameFilePdf;
     }
 
-    public function setPathFolderForGenerate(string $pathFolderForGenerate): void {
-        $this->pathFolderForGenerate = $pathFolderForGenerate;
-    }
+    public function generate(string $view, string $orientation = 'portrait', string $paperSize = 'A4') {
 
-    public function generate() {
+        $orientation === 'portrait' ? $orientation : 'landscape';
+        
+        if (!\is_dir($this->getPathFolderForGenerate())) {
+            if (!\mkdir($this->getPathFolderForGenerate(), 0755)) {
+                throw new \ErrorException('Folder ' . $this->getPathFolderForGenerate() . ' not created');
+            }
+        }
+
         $dompdf = new Dompdf();
-        $dompdf->loadHtml('hello world');
-        $dompdf->setPaper('A4', 'landscape');
+        $dompdf->set_option('isRemoteEnabled', true);
+        $dompdf->loadHtml($view);
+        $dompdf->setPaper($paperSize, $orientation);
         $dompdf->render();
-        $dompdf->stream();
+        $output = $dompdf->output();
+
+        $filePdf = $this->getPathFolderForGenerate() . '/' . $this->getNameFilePdf() . '.pdf';
+
+        if (\file_put_contents($filePdf, $output)) {
+            return $filePdf;
+        } else {
+            throw new \ErrorException('Can\'t create ' . $output . ' file. Has permission?');
+        }
     }
 
 }
