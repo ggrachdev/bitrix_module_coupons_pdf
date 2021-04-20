@@ -30,9 +30,9 @@ package GGrach.CouponsPdf {
     namespace Generator {
         class PdfGenerator {
           - string $сodeCoupon
-          - string $pathFolderGenerated
+          - string $pathFolderForGenerate
 
-          + void constructor(string $сodeCoupon, string $pathFolderGenerated)
+          + void constructor(string $сodeCoupon, string $pathFolderForGenerate)
           + bool generate()
           --
           Генерирует PDF файл
