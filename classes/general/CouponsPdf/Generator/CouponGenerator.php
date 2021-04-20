@@ -2,7 +2,7 @@
 
 namespace GGrach\CouponsPdf\Generator;
 
-class CouponGenerator {
+final class CouponGenerator {
 
     private int $userId;
     private int $idRuleBasket;
@@ -20,9 +20,7 @@ class CouponGenerator {
         return $this->userId;
     }
 
-    public function generate(): bool {
-
-        $couponCode = \CatalogGenerateCoupon();
+    public function generate(string $couponCode): bool {
 
         $fields = [
             'DISCOUNT_ID' => $this->getIdRuleBasket(), // id правила корзины
@@ -38,9 +36,7 @@ class CouponGenerator {
         return $resultGenerate->isSuccess();
     }
 
-    public function generateForUser(): bool {
-
-        $couponCode = \CatalogGenerateCoupon();
+    public function generateForUser(string $couponCode): bool {
 
         $fields = [
             'DISCOUNT_ID' => $this->getIdRuleBasket(), // id правила корзины

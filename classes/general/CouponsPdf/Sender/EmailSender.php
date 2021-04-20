@@ -4,7 +4,7 @@ namespace GGrach\CouponsPdf\Sender;
 
 use \Bitrix\Main\Mail\Event;
 
-class EmailSender {
+final class EmailSender {
 
     public static function sendNotice(array $params = [], array $files = [], string $eventName = 'SEND_DELIVERY_COUPON'): bool {
 

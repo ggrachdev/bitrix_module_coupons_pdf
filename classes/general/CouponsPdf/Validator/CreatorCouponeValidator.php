@@ -2,9 +2,9 @@
 
 namespace GGrach\CouponsPdf\Validator;
 
-class CreatorCouponeValidator {
+final class CreatorCouponeValidator {
 
-    public static function needGenerateCoupon(int $orderId, int $minSummForGenerate): bool {
+    public static function needGenerateCoupon(int $orderId, int $minSummForGenerate, int $maxSummForGenerate): bool {
         $needGenerate = false;
 
         if (\Bitrix\Main\Loader::includeModule('sale')) {
@@ -14,7 +14,8 @@ class CreatorCouponeValidator {
             if (
                 $order &&
                 $order->getField('STATUS_ID') === 'F' &&
-                $order->getBasket()->getPrice() >= $minSummForGenerate
+                $order->getBasket()->getPrice() >= $minSummForGenerate && 
+                $order->getBasket()->getPrice() <= $maxSummForGenerate
             ) {
                 $needGenerate = true;
             }

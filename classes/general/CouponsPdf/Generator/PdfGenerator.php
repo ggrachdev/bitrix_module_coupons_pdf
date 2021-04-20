@@ -4,7 +4,7 @@ namespace GGrach\CouponsPdf\Generator;
 
 use Dompdf\Dompdf;
 
-class PdfGenerator {
+final class PdfGenerator {
 
     private string $pathFolderForGenerate;
     private string $nameFilePdf;

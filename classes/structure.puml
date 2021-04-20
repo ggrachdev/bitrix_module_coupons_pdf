@@ -13,7 +13,7 @@ package GGrach.CouponsPdf {
 
     namespace Validator {
         class CreatorCouponeValidator{
-          + {static} bool needGenerateCoupon(int $orderId, int $minSummForGenerate)
+          + {static} bool needGenerateCoupon(int $orderId, int $minSummForGenerate, int $maxSummForGenerate)
           --
           Определяет нужно ли генерировать купон для заказа
         }
@@ -33,7 +33,7 @@ package GGrach.CouponsPdf {
           - string $pathFolderForGenerate
 
           + void constructor(string $сodeCoupon, string $pathFolderForGenerate)
-          + string generate()
+          + string generate(string $couponCode)
           --
           Генерирует PDF файл
         }
@@ -57,7 +57,7 @@ package GGrach.CouponsPdf {
         class CouponsPdfFacade {
           - array $rulesGenerateCoupons
           + void addRuleGenerate(int $minSumm, int $maxSumm, int $idRuleBasket)
-          + void handle(int $idOrder)
+          + bool handle(int $idOrder)
           --
           Объединяет операции генерации и отправки флаера с купоном
         }
@@ -66,6 +66,7 @@ package GGrach.CouponsPdf {
 
     Generator.CouponGenerator --o Facade.CouponsPdfFacade
     Generator.PdfGenerator --o Facade.CouponsPdfFacade
+    Validator.CreatorCouponeValidator --o Facade.CouponsPdfFacade
     Sender.EmailSender --o Facade.CouponsPdfFacade
 
     Facade.CouponsPdfFacade --o Handler.OrderHandler
