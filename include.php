@@ -1,7 +1,5 @@
 <?
-global $DB, $DBType;
-
-Bitrix\Main\Loader::registerAutoLoadClasses('ggrachdev.debugbar', [
-    "\GGrach\CouponsPdf\Debugger\Debugger" => "classes/general/BitrixDebugger/Debugger/Debugger.php"
+Bitrix\Main\Loader::registerAutoLoadClasses('ggrachdev.coupons_pdf', [
+    "\GGrach\CouponsPdf\Generator\CouponGenerator" => "classes/general/CouponsPdf/Generator/CouponGenerator.php"
 ]);
 ?>

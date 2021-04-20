@@ -1,0 +1,74 @@
+@startuml
+
+skinparam classAttributeIconSize 0
+
+package GGrach.CouponsPdf {
+    namespace Handler {
+        class OrderHandler {
+          + {static} void initialize()
+          --
+          Слушатели связанные с заказом 
+        }
+    }
+
+    namespace Validator {
+        class CreatorCouponeValidator{
+          + {static} bool validate(int $orderId)
+          --
+          Опредялет нужно ли генерировать купон для заказа
+        }
+    }
+
+    namespace Sender {
+        class EmailSender {
+          + {static} void sendNotice($emailReceiver)
+          --
+          Отправитель сообщений с флаером
+        }
+    }
+
+    namespace Generator {
+        class PdfGenerator {
+          - string $сodeCoupon
+          - string $pathFolderGenerated
+
+          + void constructor(string $сodeCoupon, string $pathFolderGenerated)
+          + bool generate()
+          --
+          Генерирует PDF файл
+        }
+
+        class CouponGenerator {
+          - int $userId
+          - int $idRuleBasket
+
+          + void constructor(int $userId, int $idRuleBasket)
+          + bool generate()
+          + bool generateForUser()
+          + int getUserId()
+          + int getIdRuleBasket()
+          --
+          Генерирует купоны
+        }
+    }
+
+
+    namespace Facade {
+        class CouponsPdfFacade {
+          - array $rulesGenerateCoupons
+          + void addRuleGenerate(int $minSumm, int $maxSumm, int $idRuleBasket)
+          + void handle(int $idOrder)
+          --
+          Объединяет операции генерации и отправки флаера с купоном
+        }
+    }
+
+
+    Generator.CouponGenerator --o Facade.CouponsPdfFacade
+    Generator.PdfGenerator --o Facade.CouponsPdfFacade
+    Sender.EmailSender --o Facade.CouponsPdfFacade
+
+    Facade.CouponsPdfFacade --o Handler.OrderHandler
+}
+
+@enduml
