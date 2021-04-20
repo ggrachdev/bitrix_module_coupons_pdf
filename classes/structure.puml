@@ -13,15 +13,15 @@ package GGrach.CouponsPdf {
 
     namespace Validator {
         class CreatorCouponeValidator{
-          + {static} bool needGenerateCoupon(int $orderId)
+          + {static} bool needGenerateCoupon(int $orderId, int $minSummForGenerate)
           --
-          Опредялет нужно ли генерировать купон для заказа
+          Определяет нужно ли генерировать купон для заказа
         }
     }
 
     namespace Sender {
         class EmailSender {
-          + {static} void sendNotice($emailReceiver)
+          + {static} void sendNotice(array $params = [], array $files = [], string $eventName = 'SEND_DELIVERY_COUPON')
           --
           Отправитель сообщений с флаером
         }
