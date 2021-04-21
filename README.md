@@ -9,6 +9,7 @@
 
 \Bitrix\Main\Loader::includeModule('ggrachdev.coupons_pdf');
 
+use \GGrach\CouponsPdf\Handler\OrderHandler;
 use \GGrach\CouponsPdf\Facade\CouponsPdfFacade;
 
 // Задаем правило, что при сумме заказа от 10000 до 19999 создавать купон в правило работы с корзиной
