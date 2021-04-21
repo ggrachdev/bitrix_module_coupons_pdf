@@ -29,14 +29,17 @@ final class PdfGenerator {
     public function generate(string $view, string $orientation = 'portrait', string $paperSize = 'A4') {
 
         $orientation === 'portrait' ? $orientation : 'landscape';
-        
+
         if (!\is_dir($this->getPathFolderForGenerate())) {
             if (!\mkdir($this->getPathFolderForGenerate(), 0755)) {
                 throw new \ErrorException('Folder ' . $this->getPathFolderForGenerate() . ' not created');
             }
         }
 
-        $dompdf = new Dompdf();
+        $dompdf = new Dompdf([
+            'fontDir' => $_SERVER['DOCUMENT_ROOT'] . '/local/templates/aspro_optimus/templates_coupons/flyer/fonts/',
+            'defaultFont' => "dompdf_bebas"
+        ]);
         $dompdf->set_option('isRemoteEnabled', true);
         $dompdf->loadHtml($view);
         $dompdf->setPaper($paperSize, $orientation);
