@@ -57,7 +57,7 @@ package GGrach.CouponsPdf {
         class CouponsPdfFacade {
           - array $rulesGenerateCoupons
           + void addRuleGenerate(int $minSumm, int $maxSumm, int $idRuleBasket)
-          + bool handle(int $idOrder)
+          + bool handle(int $idOrder, string $pathFolderPdfGenerate, string $viewPdf)
           --
           Объединяет операции генерации и отправки флаера с купоном
         }
