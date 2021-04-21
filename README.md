@@ -21,7 +21,19 @@ CouponsPdfFacade::addRuleGenerate(10000, 19999, 2, 5);
 CouponsPdfFacade::addRuleGenerate(20000, 29999, 3, 10);
 CouponsPdfFacade::addRuleGenerate(30000, 10000000, 4, 15);
 
+// Можете кастомизировать событие в классе:
 OrderHandler::initialize();
+
+// ИЛИ:
+
+// Если кастомизировать хотите через другую точку входа, то вызовите метод handle у CouponsPdfFacade:
+$viewPdf = 'Ваш шаблон html из которого будет сформирован PDF с заменой #COUPON# и #PERCENT# на сгенерированные значения';
+
+// Куда сохранять PDF
+$pathFolderPdfGenerate = $_SERVER['DOCUMENT_ROOT'] . '/upload/coupons_pdf';
+
+// Надо передать ID заказа, путь куда сохранять pdf и шаблон
+CouponsPdfFacade::handle($order->getId(), $pathFolderPdfGenerate, $viewPdf);
 ```
 
 Модуль писался как разовый под проект, кастомизируйте под себя, скопировать и чтобы заработало не выйдет, по возможности - все распишу подробнее и сделаю более универсальным
