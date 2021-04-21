@@ -6,21 +6,21 @@ use \Bitrix\Main\Mail\Event;
 
 final class EmailSender {
 
-    public static function sendNotice(array $params = [], array $files = [], string $eventName = 'SEND_DELIVERY_COUPON'): bool {
+    public static function sendNotice(array $params = [], array $files = [], string $eventName = 'SEND_DELIVERY_COUPON') {
 
         $arData = [
             "EVENT_NAME" => $eventName,
-            "LID" => SITE_ID,
-            "C_FIELDS" => $params,
+            "LID" => 's1',
+            "C_FIELDS" => [
+                'EMAIL' => $params['EMAIL']
+            ],
         ];
-        
-        if(!empty($files)) {
+
+        if (!empty($files)) {
             $arData['FILE'] = $files;
         }
-        
-        $res = Event::send($arData);
-        
-        return $res->IsSuccess();
+
+        return Event::send($arData)->IsSuccess();
     }
 
 }

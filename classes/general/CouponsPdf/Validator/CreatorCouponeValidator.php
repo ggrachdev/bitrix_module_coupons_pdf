@@ -14,10 +14,19 @@ final class CreatorCouponeValidator {
             if (
                 $order &&
                 $order->getField('STATUS_ID') === 'F' &&
-                $order->getBasket()->getPrice() >= $minSummForGenerate && 
+                $order->getBasket()->getPrice() >= $minSummForGenerate &&
                 $order->getBasket()->getPrice() <= $maxSummForGenerate
             ) {
-                $needGenerate = true;
+
+                $couponList = \Bitrix\Sale\Internals\OrderCouponsTable::getList(array(
+                        'select' => array('COUPON'),
+                        'filter' => array('=ORDER_ID' => $orderId)
+                ));
+                if ($coupon = $couponList->fetch()) {
+                    $needGenerate = false;
+                } else {
+                    $needGenerate = true;
+                }
             }
         }
 

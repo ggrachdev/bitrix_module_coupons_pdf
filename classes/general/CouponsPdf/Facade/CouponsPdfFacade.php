@@ -20,6 +20,10 @@ final class CouponsPdfFacade {
         ];
     }
 
+    public static function generatePdfFileName(int $userId, int $orderId, string $email): string {
+        return \md5($userId . '_' . $orderId . '_' . $email);
+    }
+
     public static function handle(int $idOrder, string $pathFolderPdfGenerate, string $viewPdf): bool {
 
         $wasSuccessGenerateCoupon = false;
@@ -33,17 +37,20 @@ final class CouponsPdfFacade {
                 $propertyCollection = $order->getPropertyCollection();
 
                 // email куда отправляем купон
-                $emailPropValue = $propertyCollection->getUserEmail();
+                $emailPropValue = $propertyCollection->getUserEmail()->getValue();
 
                 foreach (self::getRulesGenerateCoupons() as $rule) {
-                    if (CreatorCouponeValidator::needGenerateCoupon($idOrder, $rule['minSumm'], $rule['maxSumm'])) {
+                    $fileNamePdf = self::generatePdfFileName($userId, $idOrder, $emailPropValue);
+                    $pdfGenerator = new PdfGenerator($pathFolderPdfGenerate, $fileNamePdf);
 
+                    if (
+                        !\is_file($pdfGenerator->getPathFilePdf()) &&
+                        CreatorCouponeValidator::needGenerateCoupon($idOrder, $rule['minSumm'], $rule['maxSumm'])
+                    ) {
                         $couponCode = \CatalogGenerateCoupon();
                         $couponGenerator = new CouponGenerator($userId, $rule['idRuleBasket']);
 
                         if ($couponGenerator->generate($couponCode)) {
-
-                            $pdfGenerator = new PdfGenerator($pathFolderPdfGenerate, \str_shuffle(\uniqid() . \uniqid()));
 
                             $view = str_replace(
                                 [
@@ -54,7 +61,7 @@ final class CouponsPdfFacade {
                                     $couponCode,
                                     $rule['percent'] . '%'
                                 ],
-                                $view
+                                $viewPdf
                             );
 
                             try {

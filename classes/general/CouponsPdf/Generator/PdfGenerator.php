@@ -22,6 +22,10 @@ final class PdfGenerator {
         return $this->nameFilePdf;
     }
 
+    public function getPathFilePdf(): string {
+        return $this->getPathFolderForGenerate() . '/' . $this->getNameFilePdf() . '.pdf';
+    }
+
     public function generate(string $view, string $orientation = 'portrait', string $paperSize = 'A4') {
 
         $orientation === 'portrait' ? $orientation : 'landscape';
@@ -39,7 +43,7 @@ final class PdfGenerator {
         $dompdf->render();
         $output = $dompdf->output();
 
-        $filePdf = $this->getPathFolderForGenerate() . '/' . $this->getNameFilePdf() . '.pdf';
+        $filePdf = $this->getPathFilePdf();
 
         if (\file_put_contents($filePdf, $output)) {
             return $filePdf;
