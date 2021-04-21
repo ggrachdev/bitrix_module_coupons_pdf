@@ -11,7 +11,7 @@ final class EmailSender {
         $arData = [
             "EVENT_NAME" => $eventName,
             "LID" => 's1',
-            $params,
+            "C_FIELDS" => $params
         ];
 
         if (!empty($files)) {
