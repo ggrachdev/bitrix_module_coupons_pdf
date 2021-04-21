@@ -59,7 +59,7 @@ final class CouponsPdfFacade {
                                 ],
                                 [
                                     $couponCode,
-                                    $rule['percent'] . '%'
+                                    'Скидку '.$rule['percent'] . '%'
                                 ],
                                 $viewPdf
                             );
@@ -69,7 +69,9 @@ final class CouponsPdfFacade {
 
                                 $successSend = EmailSender::sendNotice(
                                         [
-                                            'EMAIL' => $emailPropValue
+                                            'EMAIL' => $emailPropValue,
+                                            'COUPON' => $couponCode,
+                                            'PERCENT' => $rule['percent']
                                         ],
                                         [
                                             $filePathPdfCoupon
