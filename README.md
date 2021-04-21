@@ -3,7 +3,12 @@
 
 Настройте под себя /ggrachdev.coupons_pdf/classes/general/CouponsPdf/Handler/OrderHandler.php либо не инициализируйте и создайте свое событие OnSaleStatusOrderChange по аналогии. Там нужно в фасад передать шаблон с плейсхолдером #COUPON# (Код купона) и #PERCENT# (Процент скидки)
 
+
 ```php
+// init.php
+
+\Bitrix\Main\Loader::includeModule('ggrachdev.coupons_pdf');
+
 use \GGrach\CouponsPdf\Facade\CouponsPdfFacade;
 
 // Задаем правило, что при сумме заказа от 10000 до 19999 создавать купон в правило работы с корзиной
